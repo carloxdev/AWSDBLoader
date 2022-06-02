@@ -1,0 +1,7 @@
+pymysql
+sqlalchemy<1.4
+greenlet<1.1.0
+sqlalchemy-aurora-data-api
+python-dotenv
+pyjwt[crypto]
+sqlalchemy-pagination

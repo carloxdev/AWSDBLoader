@@ -1,0 +1,69 @@
+# OS GENERATED FILES
+# ---------------------------------------
+.DS_Store
+.Trashes
+Thumbs.db
+
+# LARGE MEDIA FILES
+# ---------------------------------------
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+
+# EDITORES
+# ---------------------------------------
+.vscode/*
+.idea/*
+
+# JAVASCRIPT FILES
+# ---------------------------------------
+**/node_modules
+**/package-lock.json
+
+# PYTHON FILES
+# ---------------------------------------
+**/__pycache__
+*.pyc
+.env
+.coverage
+
+# DJANGO
+# ---------------------------------------
+media/*
+static/*
+**/migrations/*
+
+# CELERY FILES
+# ---------------------------------------
+celerybeat-schedule.db
+celerybeat-schedule
+celerybeat-schedule*
+
+# OTHER FILES
+# ---------------------------------------
+*.log
+*.zip
+
+# IDE FILES
+# ---------------------------------------
+.idea/
+.vscode
+
+# AWS FILES
+# ---------------------------------------
+.aws-sam
+samconfig.toml
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# SERVERLESS FRAMEWORK FILES
+# ---------------------------------------
+.serverless
+
+# BUILD DIRECTORIES
+# ---------------------------------------
+dist/*
+*.egg-info
