@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class SupplierLoaderTest(TestCase):
+# class SupplierLoaderTest(TestCase):
 
-    def test_When_Success(self):
-        loader_rds(SupplierModel(), SUPPLIER_DATA)
+#     def test_When_Success(self):
+#         loader_rds(SupplierModel(), SUPPLIER_DATA)

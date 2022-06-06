@@ -25,6 +25,20 @@ class AttrBase(object):
         self.__value = self.set_Value(_value)
 
 
+class ArrayAttr(AttrBase):
+
+    def set_Value(self, _value):
+        return _value if _value is not None else []
+
+    def get_Str(self, _value):
+        if _value is None or _value == "" or _value == []:
+            return "[]"
+        value = "["
+        value += ', '.join([str(elem) for elem in _value])
+        value += "]"
+        return value
+
+
 class StringAttr(AttrBase):
 
     def set_Value(self, _value):
@@ -92,7 +106,10 @@ class DynamoModel(object):
                 if value is None or value == "":
                     continue
 
-            dict[key] = value
+            if isinstance(value, ArrayAttr):
+                dict[key] = value.value
+            else:
+                dict[key] = value
 
         return dict
 

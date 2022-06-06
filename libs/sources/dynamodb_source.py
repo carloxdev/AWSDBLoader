@@ -102,6 +102,76 @@ class DynamoDBSource(object):
         print(data)
         return data
 
+    def select_Many(
+        self,
+        _model,
+        _keyconditions,
+        _keyconditions_values,
+        _attributes_names=None,
+        _filters=None,
+        _index_name=None,
+        _start_key=None,
+        _page_size=None
+    ):
+        self.logger.info(f"<--- Query in table: {_model.__tablename__}")
+        if _keyconditions is None or _keyconditions_values is None:
+            raise SourceError(
+                _message="KeyConditionExpression is missing",
+                _error=None,
+                _logger=self.logger
+            )
+
+        arguments = {}
+        arguments['TableName'] = _model.__tablename__
+        arguments['KeyConditionExpression'] = _keyconditions
+        arguments['ExpressionAttributeValues'] = _keyconditions_values
+
+        if _page_size:
+            arguments['PaginationConfig'] = {
+                'PageSize': _page_size,
+                'StartingToken': None
+            }
+
+        if _index_name:
+            arguments['IndexName'] = _index_name
+
+        if _filters:
+            arguments['FilterExpression'] = _filters
+
+        if _attributes_names:
+            arguments['ExpressionAttributeNames'] = _attributes_names
+
+        if _start_key:
+            arguments['ExclusiveStartKey'] = _start_key
+
+        try:
+            self.__connect()
+            paginator = self.client.get_paginator('query')
+
+            self.logger.info(f"Using arguments: {arguments}")
+            page_iterator = paginator.paginate(**arguments)
+
+            response = {}
+            for page in page_iterator:
+                response = page
+                break
+
+        except Exception as e:
+            raise SourceError(
+                _message=str(e),
+                _error=str(e),
+                _logger=self.logger
+            )
+
+        if len(response['Items']) == 0:
+            raise NoRecordsFoundError(
+                _message="No records found",
+                _logger=self.logger
+            )
+
+        self.logger.info(f"{len(response['Items'])} Records found")
+        return response
+
     def select_ManyWithScan(
         self,
         _table_name,
@@ -142,8 +212,6 @@ class DynamoDBSource(object):
             last_evalued = None
             count = 0
 
-            # records = []
-
             for page in page_iterator:
                 count += 1
                 print(f"{len(page['Items'])} Records found in page {count}")
@@ -170,12 +238,7 @@ class DynamoDBSource(object):
                 _logger=self.logger
             )
 
-        # else:
-        #     data_pag = data[:10]
-        #     last_evalued = data_pag[-1]
-
         return_data = {}
-        # return_data['Items'] = data_pag
         return_data['Items'] = data
         return_data['LastEvaluatedKey'] = last_evalued
 
