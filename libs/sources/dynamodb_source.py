@@ -248,7 +248,8 @@ class DynamoDBSource(object):
         self.__connect_WithResource()
 
         try:
-            print(_table_name)
+            print(f"Table: {_table_name}")
+            print(f"With filter: {_filter}")
             table = self.client.Table(_table_name)
             response = table.delete_item(
                 Key=_filter

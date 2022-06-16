@@ -88,28 +88,30 @@ class DynamoModel(object):
 
         for key, value in _data_dic.items():
             if key in attributes:
+                attr_to_update = getattr(self, key)
+
                 if _with_type:
                     subkeys = value.keys()
                     for i in subkeys:
                         if i == 'N':
-                            setattr(self, key, int(value[i]))
+                            setattr(attr_to_update, "value", int(value[i]))
                         else:
-                            setattr(self, key, value[i])
+                            setattr(attr_to_update, "value", value[i])
 
                 else:
-                    setattr(self, key, value)
+                    setattr(attr_to_update, "value", value)
 
     def get_Dict(self, _nulls=True):
         dict = {}
         for key, value in self.__dict__.items():
             if _nulls is False:
-                if value is None or value == "":
+                if value.value is None or value.value == "" or value.value == []:
                     continue
 
             if isinstance(value, ArrayAttr):
                 dict[key] = value.value
             else:
-                dict[key] = value
+                dict[key] = value.value
 
         return dict
 

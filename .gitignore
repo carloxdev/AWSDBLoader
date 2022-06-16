@@ -68,6 +68,3 @@ samconfig.toml
 dist/*
 *.egg-info
 
-
-data/
-models/

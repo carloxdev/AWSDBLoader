@@ -13,9 +13,6 @@ from libs.models.base_dynamo import StringAttr
 from libs.models.base_dynamo import ArrayAttr
 
 
-# environment = os.getenv("environment")[0]
-
-
 class SupplierModel(Base, RdsModel):
     __tablename__ = "suppliers"
 
@@ -44,10 +41,14 @@ class SupplierDynamoModel(DynamoModel):
         self.op_key = StringAttr(_op_key)
         self.exporters_importers = ArrayAttr(_exporters_importers)
 
-
-class SupplierInvoicesModel(SupplierDynamoModel):
-    __tablename__ = "nvs-bts-us-va-invoices-suppliers-d"
-
     def __repr__(self):
         value = f"SupplierModel: {self.get_Dict()}"
         return value
+
+
+class SupplierInvoicesModel(SupplierDynamoModel):
+    __tablename__ = "nvs-bts-us-va-invoices-suppliers"
+
+
+class SupplierTrafficModel(SupplierDynamoModel):
+    __tablename__ = "nvs-bts-us-va-traffic-suppliers"
